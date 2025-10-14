@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urine Test Results - Step 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #87ceeb 0%, #b6e5ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: white;
+            height: 100%;
+            width: 66.66%;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .step-info {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-group {
+            background: #e6f3ff;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+        }
+
+        .form-group h3 {
+            color: #2980b9;
+            margin-bottom: 25px;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group h3::before {
+            content: "💧";
+            margin-right: 15px;
+            font-size: 1.5em;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-field label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .form-field input {
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-field input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .flash-message.error {
+            background: #ffe6e6;
+            color: #d63031;
+            border-left: 4px solid #d63031;
+        }
+
+        .flash-message.success {
+            background: #efd;
+            color: #00b894;
+            border-left: 4px solid #00b894;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            .form-container {
+                padding: 20px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💧 Urine Test Results</h1>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="step-info">Step 2 of 3 - Urine Analysis</div>
+        </div>
+
+        <div class="form-container">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/submit-urine-test">
+                <div class="form-group">
+                    <h3>Enter Your Urine Test Values</h3>
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="specific_gravity">Specific Gravity</label>
+                            <input type="number" step="0.001" id="specific_gravity" name="specific_gravity" 
+                                   placeholder="e.g., 1.025" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="albumin">Albumin (mg/dL)</label>
+                            <input type="number" step="0.01" id="albumin" name="albumin" 
+                                   placeholder="e.g., 0.5" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="rbc_count">Red Blood Cell Count</label>
+                            <input type="number" step="0.01" id="rbc_count" name="rbc_count" 
+                                   placeholder="e.g., 2.0" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation">
+                    <a href="/blood-test" class="btn btn-secondary">← Back to Blood Test</a>
+                    <button type="submit" class="btn btn-primary">Next: Medical History →</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
