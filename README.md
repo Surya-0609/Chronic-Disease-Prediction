@@ -2,11 +2,6 @@
 
 A comprehensive AI-powered web application for predicting chronic kidney disease using machine learning. This system provides a user-friendly interface for medical professionals and patients to input test results and receive predictions through a multi-step analysis process.
 
-![Python](https://img.shields.io/badge/python-v3.13-blue)
-![Flask](https://img.shields.io/badge/flask-v3.1.2-green)
-![Scikit-learn](https://img.shields.io/badge/scikit--learn-v1.7.2-orange)
-![License](https://img.shields.io/badge/license-MIT-blue)
-
 ## 🌟 Features
 
 - **Multi-Step Analysis Process**: Organized workflow through Blood Test → Urine Test → Medical History
@@ -191,17 +186,6 @@ For production deployment, consider:
 - **Environment Variables**: Secret keys, database URLs
 - **SSL Certificate**: HTTPS encryption
 - **Database**: PostgreSQL, MySQL for production data
-
-### Docker Deployment (Optional)
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-COPY . .
-EXPOSE 5000
-CMD ["python", "app.py"]
-```
 
 ## 🤝 Contributing
 
